@@ -37,12 +37,13 @@ app.post('/post', async (req, res) => {
         const response = await axios.post(req.body.route, {...req.body, route: undefined }, {
             headers: {
                 Authorization: req.headers.authorization,
-            }
+            },
+            params: req.query,
         })
         res.status(response.status);
         res.json(response.data);
     } catch (e) {
-        console.log('POST - error -> ', req.query.route,)
+        console.log('POST - error -> ', req.body.route,)
         console.log('POST -> status', e.response.status, ' message ->', e.response.data)
         res.status(e.response.status);
         res.json(e.response.data);
@@ -60,8 +61,26 @@ app.patch('/patch', async (req, res) => {
         res.status(response.status);
         res.json(response.data);
     } catch (e) {
-        console.log('PATCH - error -> ', req.query.route,)
+        console.log('PATCH - error -> ', req.body.route,)
         console.log('PATCH -> status', e.response.status, ' message ->', e.response.data)
+        res.status(e.response.status);
+        res.json(e.response.data);
+    }
+})
+
+app.put('/put', async (req, res) => {
+    // console.log(req);
+    try {
+        const response = await axios.patch(req.body.route, {...req.body, route: undefined }, {
+            headers: {
+                Authorization: req.headers.authorization,
+            }
+        })
+        res.status(response.status);
+        res.json(response.data);
+    } catch (e) {
+        console.log('PUT - error -> ', req.body.route,)
+        console.log('PUT -> status', e.response.status, ' message ->', e.response.data)
         res.status(e.response.status);
         res.json(e.response.data);
     }
@@ -79,7 +98,7 @@ app.delete('/delete', async (req, res) => {
         console.log(response.status)
         res.json(response.data);
     } catch (e) {
-        console.log('DELETE - error -> ', req.query.route,)
+        console.log('DELETE - error -> ', req.body.route,)
         console.log('DELETE - error -> status', e.response.status, ' message ->', e.response.data)
         res.status(e.response.status);
         res.json(e.response.data);
