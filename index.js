@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/get', async (req, res) => {
-    // console.log(req);
+    // console.log(req.headers.authorization);
     try {
         const response = await axios.get(req.query.route, {
             headers: {
@@ -88,12 +88,13 @@ app.put('/put', async (req, res) => {
 
 
 app.delete('/delete', async (req, res) => {
-    // console.log(req)
+    // console.log(req.query)
     try {
         const response = await axios.delete(req.query.route, {
             headers: {
                 Authorization: req.headers.authorization,
-            }
+            },
+            data: {...req.query, route: undefined },
         })
         console.log(response.status)
         res.json(response.data);
